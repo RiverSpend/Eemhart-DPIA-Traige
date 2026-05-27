@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy & Compliance Beoordeling – Eemhart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --oranje: #E75113;
+  --blauw: #39B2C6;
+  --blauw-dk: #2d818e;
+  --paars: #890F75;
+  --beige: #FBEFC1;
+  --wit: #ffffff;
+  --bg: #f4f6f9;
+  --grijs: #e4e7ec;
+  --grijs-md: #9ca3af;
+  --grijs-dk: #4b5563;
+  --tekst: #1a2035;
+  --groen: #16a34a;
+  --rood: #dc2626;
+  --geel: #d97706;
+  --r: 14px;
+  --sh: 0 2px 16px rgba(0,0,0,0.07);
+  --sh-lg: 0 8px 40px rgba(0,0,0,0.11);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Lexend',sans-serif;background:var(--bg);color:var(--tekst);min-height:100vh;line-height:1.6;font-size:15px}
+
+/* ── HEADER ── */
+.hdr{background:white;border-bottom:3px solid var(--blauw);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(0,0,0,0.06)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-txt{font-size:22px;font-weight:700;letter-spacing:-0.5px}
+.l-eem{color:var(--blauw)}
+.l-h{color:var(--oranje)}
+.l-art{color:var(--oranje)}
+.tool-lbl{font-size:12px;color:var(--grijs-md);border-left:1px solid var(--grijs);padding-left:12px;line-height:1.3}
+.restart-btn{background:none;border:1.5px solid var(--grijs);border-radius:8px;padding:7px 14px;font-size:13px;font-family:inherit;cursor:pointer;color:var(--grijs-dk);transition:.2s}
+.restart-btn:hover{border-color:var(--blauw);color:var(--blauw)}
+
+/* ── PROGRESS ── */
+.prog-wrap{background:white;padding:12px 28px 10px;border-bottom:1px solid var(--grijs);position:sticky;top:62px;z-index:100}
+.phases{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.phase{font-size:11px;padding:4px 11px;border-radius:20px;font-weight:500;border:1.5px solid var(--grijs);color:var(--grijs-md);background:white;transition:.3s;white-space:nowrap}
+.phase.active{background:var(--blauw);color:white;border-color:var(--blauw)}
+.phase.done{background:#dcfce7;color:var(--groen);border-color:#86efac}
+.phase.skip{opacity:.35}
+.bar-track{height:5px;background:var(--grijs);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--blauw),var(--oranje));border-radius:4px;transition:width .5s ease}
+.prog-txt{font-size:11px;color:var(--grijs-md);margin-top:4px}
+
+/* ── MAIN ── */
+.main{max-width:760px;margin:0 auto;padding:32px 20px 60px}
+
+/* ── CARD ── */
+.card{background:white;border-radius:var(--r);padding:44px 48px;box-shadow:var(--sh);position:relative;overflow:hidden;animation:fadeUp .35s ease}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blauw),var(--oranje))}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.phase-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--blauw-dk);background:rgba(57,178,198,.1);padding:4px 12px;border-radius:20px;margin-bottom:18px}
+.q-title{font-size:24px;font-weight:600;color:var(--tekst);margin-bottom:10px;line-height:1.3}
+.q-sub{font-size:14px;color:var(--grijs-dk);margin-bottom:28px;line-height:1.65}
+
+/* ── TOOLTIP ── */
+.tt{position:relative;display:inline-block;cursor:pointer;margin-left:5px;vertical-align:middle}
+.tt-ic{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--blauw);color:white;border-radius:50%;font-size:10px;font-weight:700;transition:.2s}
+.tt:hover .tt-ic{background:var(--blauw-dk)}
+.tt-body{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:var(--tekst);color:white;padding:11px 15px;border-radius:10px;font-size:12.5px;width:260px;line-height:1.5;z-index:300;box-shadow:0 4px 16px rgba(0,0,0,.2);font-weight:400}
+.tt-body::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--tekst)}
+.tt:hover .tt-body,.tt:focus-within .tt-body{display:block}
+
+/* ── ANSWERS ── */
+.ans-grid{display:grid;gap:10px;margin-bottom:28px}
+.ans-grid.c2{grid-template-columns:1fr 1fr}
+.ans-grid.c3{grid-template-columns:1fr 1fr 1fr}
+.ans-btn{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--bg);border:2px solid var(--grijs);border-radius:11px;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;font-weight:500;color:var(--tekst);width:100%;transition:.18s}
+.ans-btn:hover{border-color:var(--blauw);background:rgba(57,178,198,.05);transform:translateY(-1px);box-shadow:0 3px 12px rgba(57,178,198,.12)}
+.ans-btn.sel{border-color:var(--blauw);background:rgba(57,178,198,.08);color:var(--blauw-dk)}
+.ans-btn.sel .a-ic{background:var(--blauw);color:white}
+.ans-btn.ja:hover,.ans-btn.ja.sel{border-color:var(--groen);background:rgba(22,163,74,.06);color:#14532d}
+.ans-btn.ja.sel .a-ic{background:var(--groen);color:white}
+.ans-btn.nee:hover,.ans-btn.nee.sel{border-color:#9ca3af;background:#f9fafb;color:var(--grijs-dk)}
+.ans-btn.wn:hover,.ans-btn.wn.sel{border-color:var(--geel);background:rgba(217,119,6,.06);color:#78350f}
+.ans-btn.wn.sel .a-ic{background:var(--geel);color:white}
+.a-ic{width:34px;height:34px;border-radius:8px;background:var(--grijs);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:.18s}
+.a-lbl{font-weight:600;display:block;font-size:14px}
+.a-desc{font-size:12px;color:var(--grijs-md);font-weight:400;margin-top:1px}
+
+/* ── TEXT INPUT ── */
+.ti-wrap{margin-bottom:28px}
+.ti,.ta{width:100%;padding:14px 18px;border:2px solid var(--grijs);border-radius:11px;font-size:15px;font-family:inherit;color:var(--tekst);background:var(--bg);outline:none;transition:.2s}
+.ti:focus,.ta:focus{border-color:var(--blauw);background:white;box-shadow:0 0 0 3px rgba(57,178,198,.12)}
+.ti::placeholder,.ta::placeholder{color:#bdc3cd}
+.ta{resize:vertical;min-height:72px}
+
+/* ── SELECT ANSWERS ── */
+.sel-grid{display:grid;gap:8px;margin-bottom:28px}
+.sel-btn{padding:14px 18px;border:2px solid var(--grijs);border-radius:10px;cursor:pointer;text-align:left;font-family:inherit;font-size:14px;font-weight:500;color:var(--tekst);background:var(--bg);transition:.18s;width:100%}
+.sel-btn:hover{border-color:var(--blauw);background:rgba(57,178,198,.05)}
+.sel-btn.sel{border-color:var(--blauw);background:rgba(57,178,198,.08);color:var(--blauw-dk)}
+
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px}
+.chip{padding:9px 17px;border:2px solid var(--grijs);border-radius:30px;cursor:pointer;font-size:13.5px;font-weight:500;background:white;transition:.18s;font-family:inherit;color:var(--tekst)}
+.chip:hover{border-color:var(--blauw);background:rgba(57,178,198,.06)}
+.chip.sel{background:var(--blauw);border-color:var(--blauw);color:white}
+
+/* ── FEEDBACK ── */
+.fb{padding:12px 16px;border-radius:9px;font-size:13.5px;margin-bottom:22px;display:flex;align-items:flex-start;gap:9px;line-height:1.55}
+.fb.info{background:rgba(57,178,198,.09);color:var(--blauw-dk);border-left:3px solid var(--blauw)}
+.fb.warn{background:rgba(217,119,6,.09);color:#78350f;border-left:3px solid var(--geel)}
+.fb.err{background:rgba(220,38,38,.07);color:#991b1b;border-left:3px solid var(--rood)}
+.fb.ok{background:rgba(22,163,74,.07);color:#166534;border-left:3px solid var(--groen)}
+.fb-icon{flex-shrink:0;margin-top:1px;font-size:15px}
+
+/* ── NAV ── */
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px}
+.btn-p{padding:12px 28px;background:var(--blauw);color:white;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;font-family:inherit;display:flex;align-items:center;gap:7px}
+.btn-p:hover{background:var(--blauw-dk);transform:translateY(-1px);box-shadow:0 4px 14px rgba(57,178,198,.35)}
+.btn-p:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-p.orange{background:var(--oranje)}
+.btn-p.orange:hover{background:#c84310}
+.btn-s{padding:12px 20px;background:white;color:var(--grijs-dk);border:2px solid var(--grijs);border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;transition:.2s;font-family:inherit}
+.btn-s:hover{border-color:var(--grijs-dk);color:var(--tekst)}
+.btn-s:disabled{opacity:.3;cursor:not-allowed}
+.step-ind{font-size:12px;color:var(--grijs-md);text-align:center;min-width:80px}
+
+/* ── LIVE SUMMARY ── */
+.ls{background:white;border-radius:var(--r);padding:20px 22px;margin-top:16px;box-shadow:var(--sh);border-left:4px solid var(--blauw)}
+.ls h3{font-size:12px;font-weight:700;color:var(--blauw-dk);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px}
+.ls-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0;color:var(--grijs-dk)}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dg{background:var(--groen)}.do{background:var(--geel)}.dr{background:var(--rood)}.dq{background:var(--grijs-md)}
+
+/* ── WELCOME ── */
+.welcome{text-align:center;padding:52px 32px 40px}
+.wc-ico{font-size:64px;margin-bottom:20px}
+.wc-title{font-size:28px;font-weight:700;margin-bottom:14px;line-height:1.2}
+.wc-title span{color:var(--blauw)}
+.wc-sub{font-size:15px;color:var(--grijs-dk);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto}
+.wc-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px;text-align:left}
+.wf{background:var(--bg);border-radius:11px;padding:18px}
+.wf-ico{font-size:24px;margin-bottom:6px}
+.wf-t{font-size:13px;font-weight:600;margin-bottom:3px}
+.wf-d{font-size:12px;color:var(--grijs-md)}
+.wc-note{font-size:13px;color:var(--grijs-md);margin-bottom:30px}
+
+/* ── REPORT ── */
+.report{background:white;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-lg);animation:fadeUp .45s ease}
+.rpt-hdr{background:linear-gradient(135deg,var(--blauw-dk),#1f6d78);padding:36px 44px;color:white}
+.rpt-hdr .meta{font-size:11px;opacity:.7;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.rpt-hdr h1{font-size:26px;font-weight:700;margin-bottom:6px}
+.rpt-hdr .sub{font-size:13px;opacity:.8}
+.rpt-body{padding:36px 44px}
+
+.verdict{padding:22px 26px;border-radius:11px;margin-bottom:28px;display:flex;align-items:center;gap:14px}
+.v-groen{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border:2px solid #86efac}
+.v-geel{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #fde047}
+.v-rood{background:linear-gradient(135deg,#fee2e2,#fecaca);border:2px solid #f87171}
+.v-ico{font-size:38px;flex-shrink:0}
+.v-title{font-size:18px;font-weight:700;margin-bottom:3px}
+.v-desc{font-size:13px;line-height:1.5}
+
+.rsec{margin-bottom:32px}
+.rsec h2{font-size:13.5px;font-weight:700;color:var(--blauw-dk);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid var(--grijs);display:flex;align-items:center;gap:7px}
+
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.rk{padding:14px;border-radius:9px;text-align:center;border:2px solid}
+.rk.laag{background:#dcfce7;border-color:#86efac;color:#166534}
+.rk.middel{background:#fef9c3;border-color:#fde047;color:#713f12}
+.rk.hoog{background:#fed7aa;border-color:#fdba74;color:#9a3412}
+.rk.kritiek{background:#fee2e2;border-color:#f87171;color:#991b1b}
+.rk-lv{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px}
+.rk-cat{font-size:13px;font-weight:500}
+
+.act-list{list-style:none}
+.act-item{display:flex;gap:10px;padding:11px 14px;border-radius:8px;margin-bottom:7px;align-items:flex-start;font-size:13.5px}
+.act-item.v{background:rgba(220,38,38,.05)}
+.act-item.a{background:rgba(217,119,6,.05)}
+.act-item.o{background:rgba(22,163,74,.05)}
+.badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:.3px;margin-top:2px}
+.bv{background:var(--rood);color:white}
+.ba{background:var(--geel);color:white}
+.bo{background:var(--groen);color:white}
+
+.esc-grid{display:flex;flex-wrap:wrap;gap:9px}
+.esc{padding:10px 16px;border-radius:30px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;line-height:1.3}
+.e-fg{background:rgba(137,15,117,.09);color:var(--paars);border:1.5px solid rgba(137,15,117,.25)}
+.e-ciso{background:rgba(231,81,19,.09);color:var(--oranje);border:1.5px solid rgba(231,81,19,.25)}
+.e-jur{background:rgba(57,178,198,.09);color:var(--blauw-dk);border:1.5px solid var(--blauw)}
+.e-ink{background:rgba(22,163,74,.07);color:#166534;border:1.5px solid #86efac}
+.e-dir{background:rgba(220,38,38,.07);color:#991b1b;border:1.5px solid #f87171}
+
+.audit-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.audit-tbl th{background:var(--bg);padding:9px 13px;text-align:left;font-weight:600;color:var(--grijs-dk);border-bottom:2px solid var(--grijs)}
+.audit-tbl td{padding:9px 13px;border-bottom:1px solid var(--grijs)}
+.audit-tbl tr:hover td{background:#fafbfc}
+
+.doc-chips{display:flex;flex-wrap:wrap;gap:8px}
+.doc-chip{padding:8px 16px;background:rgba(57,178,198,.1);border:1.5px solid var(--blauw);border-radius:30px;font-size:13px;color:var(--blauw-dk);font-weight:500}
+.doc-chip.warn{background:rgba(217,119,6,.1);border-color:var(--geel);color:#78350f}
+.doc-chip.err{background:rgba(220,38,38,.08);border-color:var(--rood);color:#991b1b}
+
+.print-bar{background:var(--bg);padding:18px 44px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--grijs)}
+.print-meta{font-size:12px;color:var(--grijs-md)}
+.print-btns{display:flex;gap:10px;align-items:center}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:13px}
+.info-box{background:var(--bg);padding:14px 16px;border-radius:10px}
+.info-box .lbl{font-weight:600;color:var(--blauw-dk);margin-bottom:7px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.info-row{padding:2px 0}
+.info-row strong{font-weight:600}
+
+@media(max-width:620px){
+  .card{padding:26px 18px}
+  .ans-grid.c2,.ans-grid.c3{grid-template-columns:1fr}
+  .rpt-body,.rpt-hdr{padding:22px 20px}
+  .print-bar{padding:14px 20px;flex-direction:column;gap:10px;align-items:flex-start}
+  .hdr{padding:10px 14px}
+  .prog-wrap{padding:9px 14px 7px;top:56px}
+  .main{padding:20px 12px 40px}
+  .wc-feats{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr}
+  .q-title{font-size:20px}
+}
+@media print{
+  .hdr,.prog-wrap,.nav,.print-bar .btn-p,.restart-btn{display:none!important}
+  body{background:white}
+  .report{box-shadow:none}
+  .main{padding:0}
+}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">
+    <span class="logo-txt"><span class="l-eem">EEM</span><span class="l-h">♥</span><span class="l-art">HART</span></span>
+    <span class="tool-lbl">Privacy &amp; Compliance<br>Beoordeling</span>
+  </div>
+  <button class="restart-btn" onclick="doRestart()">↺ Opnieuw starten</button>
+</header>
+
+<div class="prog-wrap" id="progWrap">
+  <div class="phases" id="phases"></div>
+  <div class="bar-track"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+  <div class="prog-txt" id="progTxt"></div>
+</div>
+
+<main class="main" id="app"></main>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+const A = {};           // answers
+let curId = 'welcome';  // current step id
+
+// ═══════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════
+const isAI = () => {
+  const c = A.intake_cat || [];
+  return c.includes('ai') || A.ctx_cloud === 'ja' || A.ctx_cloud === 'wn';
+};
+const hasPersonal = () => A.jur_pg !== 'nee';
+const hasHealth   = () => A.jur_gz === 'ja';
+const hasBijz     = () => A.jur_bz === 'ja';
+const hasSupplier = () => A.lev_ext === 'ja';
+const outsideEEA  = () => A.lev_eer === 'ja' || A.ctx_ops === 'buiten_eer';
+
+const riskOrder = ['laag','middel','hoog','kritiek'];
+const bump = (cur, nw) => riskOrder.indexOf(nw) > riskOrder.indexOf(cur) ? nw : cur;
+
+// ═══════════════════════════════════════════════════════════
+//  STEP DEFINITIONS
+// ═══════════════════════════════════════════════════════════
+const STEPS = [
+
+  // ─── WELKOM ──────────────────────────────────────────────
+  { id:'welcome', phase:'intake', type:'welcome', show:()=>true },
+
+  // ─── INTAKE ──────────────────────────────────────────────
+  { id:'i_naam', phase:'intake', lbl:'Intake', type:'text',
+    title:'Wat is de naam van de situatie?',
+    sub:'Denk aan de naam van de app, leverancier, het project of de werkwijze die je wilt bespreken.',
+    ph:'Bijv. "Zorgviewer app", "WhatsApp voor cliënten", "AI-transcriptietool"…',
+    field:'intake_naam', req:true, show:()=>true },
+
+  { id:'i_type', phase:'intake', lbl:'Intake', type:'choice',
+    title:'Gaat het om iets nieuws of een wijziging?', sub:'',
+    field:'intake_type', auto:true,
+    opts:[
+      { v:'nieuw',     icon:'✨', lbl:'Nieuw',     desc:'Iets dat Eemhart nog niet deed' },
+      { v:'wijziging', icon:'🔄', lbl:'Wijziging', desc:'Er verandert iets aan een bestaande situatie' },
+    ], show:()=>true },
+
+  { id:'i_cat', phase:'intake', lbl:'Intake', type:'chips',
+    title:'Wat gaan jullie precies doen?',
+    sub:'Je kunt meerdere opties kiezen.',
+    field:'intake_cat',
+    opts:[
+      { v:'app',      lbl:'💻 Nieuwe app of software' },
+      { v:'werkwijze',lbl:'📋 Werkwijze aanpassen' },
+      { v:'delen',    lbl:'🔗 Gegevens delen' },
+      { v:'ai',       lbl:'🤖 AI-tool gebruiken' },
+      { v:'lev',      lbl:'🏢 Nieuwe leverancier' },
+      { v:'koppeling',lbl:'⚡ Koppeling tussen systemen' },
+      { v:'anders',   lbl:'❓ Anders' },
+    ], show:()=>true },
+
+  { id:'i_doel', phase:'intake', lbl:'Intake', type:'text',
+    title:'Wat wil Eemhart hiermee bereiken?',
+    sub:'Een korte omschrijving van het doel of de aanleiding.',
+    ph:'Bijv. "Efficiënter rapporteren" of "Sneller communiceren met cliënten"…',
+    field:'intake_doel', req:false, show:()=>true },
+
+  { id:'i_eig', phase:'intake', lbl:'Intake', type:'text',
+    title:'Wie is de eigenaar of trekker van dit initiatief?',
+    sub:'Naam of functie van de verantwoordelijke.',
+    ph:'Naam of functie…', field:'intake_eig', req:false, show:()=>true },
+
+  { id:'i_afd', phase:'intake', lbl:'Intake', type:'text',
+    title:'Welke afdeling of locatie is betrokken?',
+    sub:'',
+    ph:'Bijv. "Zorg Amersfoort", "ICT", "HR"…',
+    field:'intake_afd', req:false, show:()=>true },
+
+  // ─── JURIDISCHE FILTER ───────────────────────────────────
+  { id:'j_pg', phase:'privacy', lbl:'Privacy check', type:'c3',
+    title:'Worden er persoonsgegevens verwerkt?',
+    sub:'Persoonsgegevens zijn alle gegevens die over een persoon gaan — ook indirect.',
+    tip:'Naam, adres, BSN, e-mail, telefoonnummer, IP-adres, cliëntnummer, foto, personeelsnummer — of een combinatie die herleidbaar is naar een persoon.',
+    field:'jur_pg', auto:true,
+    fb:{ ja:{t:'warn',m:'Persoonsgegevens aanwezig. We stellen aanvullende privacy- en beveiligingsvragen.'},
+         nee:{t:'ok',m:'Geen persoonsgegevens betekent dat de AVG in principe niet van toepassing is. We controleren nog beveiliging en contractrisico\'s.'},
+         wn:{t:'info',m:'We markeren dit als uitzoekpunt en gaan er voorzichtigheidshalve vanuit dat er wél persoonsgegevens zijn.'} },
+    show:()=>true },
+
+  { id:'j_wie', phase:'privacy', lbl:'Privacy check', type:'chips',
+    title:'Van wie zijn de persoonsgegevens?',
+    sub:'Meerdere groepen mogen worden aangevinkt.',
+    field:'jur_wie',
+    opts:[
+      { v:'clienten',    lbl:'🧑‍🦽 Cliënten' },
+      { v:'mw',          lbl:'👨‍💼 Medewerkers' },
+      { v:'vrijw',       lbl:'🤝 Vrijwilligers' },
+      { v:'mantel',      lbl:'👨‍👩‍👧 Mantelzorgers / familie' },
+      { v:'lev',         lbl:'🏢 Leveranciers / contacten' },
+      { v:'anderen',     lbl:'❓ Anderen' },
+    ], show:()=>hasPersonal() },
+
+  { id:'j_gz', phase:'privacy', lbl:'Privacy check', type:'c3',
+    title:'Gaat het om gezondheidsgegevens?',
+    sub:'Gezondheidsgegevens zijn bijzondere persoonsgegevens waarvoor strengere regels gelden.',
+    tip:'Diagnose, medicatie, behandelverslag, zorgplan, begeleidingsrapportage, psychologische rapportage, arbeidsongeschiktheid.',
+    field:'jur_gz', auto:true,
+    show:()=>hasPersonal() },
+
+  { id:'j_bz', phase:'privacy', lbl:'Privacy check', type:'c3',
+    title:'Gaat het om andere bijzondere persoonsgegevens?',
+    sub:'Ras/etniciteit, religie, politiek, genetisch, biometrisch, seksuele geaardheid of strafrechtelijk verleden.',
+    tip:'Bijzondere categorieën (AVG art. 9): ras of etniciteit, politieke opvattingen, religie, vakbondslidmaatschap, genetische/biometrische gegevens, gezondheidsstatus, seksuele geaardheid, strafrechtelijk verleden.',
+    field:'jur_bz', auto:true,
+    show:()=>hasPersonal() },
+
+  { id:'j_der', phase:'privacy', lbl:'Privacy check', type:'c3',
+    title:'Worden gegevens gedeeld met derden buiten Eemhart?',
+    sub:'Externe leveranciers, andere zorgaanbieders, gemeenten, verzekeraars…',
+    tip:'Gegevens versturen aan software­leverancier, zorgdossier delen met ziekenhuis, informatie verstrekken aan gemeente of verzekeraar.',
+    field:'jur_der', auto:true,
+    show:()=>hasPersonal() },
+
+  // ─── VERWERKINGSCONTEXT ──────────────────────────────────
+  { id:'c_grond', phase:'verwerking', lbl:'Verwerking', type:'sel',
+    title:'Wat is de grondslag voor de verwerking?',
+    sub:'Op welke juridische basis mogen de gegevens worden verwerkt?',
+    tip:'De AVG (art. 6) vereist altijd een geldige grondslag. Voor gezondheidsgegevens gelden aanvullende grondslagen (art. 9 AVG).',
+    field:'ctx_grond',
+    opts:[
+      { v:'overeenkomst', lbl:'Uitvoering van een overeenkomst (bijv. zorgovereenkomst)' },
+      { v:'wettelijk',    lbl:'Wettelijke verplichting' },
+      { v:'toestemming',  lbl:'Toestemming van de betrokkene' },
+      { v:'vitaal',       lbl:'Vitaal belang' },
+      { v:'publiek',      lbl:'Publieke taak' },
+      { v:'gerechtv',     lbl:'Gerechtvaardigd belang' },
+      { v:'wn',           lbl:'❓ Weet ik niet' },
+    ], auto:true, show:()=>hasPersonal() },
+
+  { id:'c_ops', phase:'verwerking', lbl:'Verwerking', type:'sel',
+    title:'Waar worden de gegevens opgeslagen?',
+    sub:'Dit bepaalt mede het risico en welke regels van toepassing zijn.',
+    tip:'Opslag buiten de EER (Europese Economische Ruimte) brengt extra AVG-verplichtingen mee, zoals Standard Contractual Clauses (SCC\'s).',
+    field:'ctx_ops',
+    opts:[
+      { v:'eigen',      lbl:'Eigen servers van Eemhart (on-premise)' },
+      { v:'cloud_nl',   lbl:'Cloud / SaaS in Nederland' },
+      { v:'cloud_eu',   lbl:'Cloud / SaaS elders in de EU / EER' },
+      { v:'buiten_eer', lbl:'Buiten de EU / EER (VS, India, etc.)' },
+      { v:'wn',         lbl:'❓ Weet ik niet' },
+    ], auto:true, show:()=>hasPersonal() },
+
+  { id:'c_kop', phase:'verwerking', lbl:'Verwerking', type:'c3',
+    title:'Worden gegevens gekoppeld aan andere systemen?',
+    sub:'Bijv. koppeling met het ECD, HR-systeem, planningssoftware of andere applicaties.',
+    tip:'Het koppelen van databronnen verhoogt het privacyrisico aanzienlijk en is een trigger voor een DPIA.',
+    field:'ctx_kop', auto:true, show:()=>hasPersonal() },
+
+  { id:'c_cloud', phase:'verwerking', lbl:'Verwerking', type:'c3',
+    title:'Maakt dit gebruik van cloud, SaaS of AI?',
+    sub:'Software die via internet draait, of waarbij kunstmatige intelligentie wordt ingezet.',
+    tip:'Voorbeelden: Microsoft 365, AFAS, Nedap, een online cliëntportaal, ChatGPT, Copilot, transcriptiesoftware.',
+    field:'ctx_cloud', auto:true, show:()=>hasPersonal() },
+
+  // ─── LEVERANCIER ─────────────────────────────────────────
+  { id:'l_ext', phase:'leverancier', lbl:'Leverancier', type:'choice',
+    title:'Is er een externe leverancier betrokken?',
+    sub:'Een partij buiten Eemhart die software levert, gegevens verwerkt of diensten biedt.',
+    field:'lev_ext', auto:true,
+    opts:[
+      { v:'ja',  icon:'🏢', lbl:'Ja',  desc:'Er is een externe partij betrokken' },
+      { v:'nee', icon:'🔒', lbl:'Nee', desc:'Alles blijft intern binnen Eemhart' },
+    ], show:()=>true },
+
+  { id:'l_tog', phase:'leverancier', lbl:'Leverancier', type:'c3',
+    title:'Heeft de leverancier toegang tot persoonsgegevens?',
+    sub:'Kan de leverancier gegevens inzien, bewerken of opslaan?',
+    tip:'Als een leverancier toegang heeft tot persoonsgegevens, is een verwerkersovereenkomst (VOK) verplicht onder de AVG.',
+    field:'lev_tog', auto:true, show:()=>hasSupplier() },
+
+  { id:'l_doel', phase:'leverancier', lbl:'Leverancier', type:'c3',
+    title:'Bepaalt de leverancier zelf het doel van de verwerking?',
+    sub:'Beslist de leverancier zelfstandig waarvoor de gegevens worden gebruikt?',
+    tip:'Als de leverancier zelf bepaalt waarvoor hij gegevens gebruikt, is hij een (mede)verwerkings­verantwoordelijke. Dan is een andere overeenkomst nodig dan een verwerkersovereenkomst.',
+    field:'lev_doel', auto:true, show:()=>hasSupplier() },
+
+  { id:'l_sub', phase:'leverancier', lbl:'Leverancier', type:'c3',
+    title:'Zijn er subverwerkers betrokken?',
+    sub:'Schakelt de leverancier op zijn beurt andere partijen in met toegang tot de gegevens?',
+    tip:'Bijv. de leverancier host bij AWS of Azure, of gebruikt een derde voor support. Subverwerkers moeten ook voldoen aan AVG-eisen.',
+    field:'lev_sub', auto:true, show:()=>hasSupplier() },
+
+  { id:'l_eer', phase:'leverancier', lbl:'Leverancier', type:'c3',
+    title:'Is de leverancier of zijn servers buiten de EER gevestigd?',
+    sub:'Verwerkt de leverancier gegevens buiten Europa?',
+    tip:'Landen buiten de EER bieden niet automatisch hetzelfde beschermingsniveau. Extra waarborgen (bijv. SCC\'s) zijn dan vereist. Bekende voorbeelden: VS, India, China.',
+    field:'lev_eer', auto:true, show:()=>hasSupplier() },
+
+  { id:'l_cert', phase:'leverancier', lbl:'Leverancier', type:'c3',
+    title:'Heeft de leverancier ISO 27001 of NEN 7510 certificering?',
+    sub:'Erkende certificeringen voor informatiebeveiliging.',
+    tip:'ISO 27001 = internationale standaard informatiebeveiliging. NEN 7510 = zorgsector Nederland. Certificering biedt aantoonbare zekerheid over het beveiligingsniveau bij de leverancier.',
+    field:'lev_cert', auto:true, show:()=>hasSupplier() },
+
+  // ─── DPIA CHECK ──────────────────────────────────────────
+  { id:'d_mon', phase:'dpia', lbl:'DPIA check', type:'c3',
+    title:'Is er sprake van monitoring of bijhouden van gedrag?',
+    sub:'Worden mensen gevolgd, gemonitord of hun gedrag geregistreerd?',
+    tip:'Locatietracking, cameratoezicht, bijhouden van app-gebruik, logging van medewerker­activiteit.',
+    field:'dpia_mon', auto:true, show:()=>hasPersonal() },
+
+  { id:'d_prof', phase:'dpia', lbl:'DPIA check', type:'c3',
+    title:'Is er profilering of geautomatiseerde besluitvorming?',
+    sub:'Neemt een systeem of algoritme beslissingen op basis van persoonsgegevens?',
+    tip:'AI die bepaalt welke zorg iemand krijgt, algoritme dat risico\'s inschat, automatische triage, aanbevelingssystemen.',
+    field:'dpia_prof', auto:true, show:()=>hasPersonal() },
+
+  { id:'d_inno', phase:'dpia', lbl:'DPIA check', type:'c3',
+    title:'Gaat het om een nieuwe of innovatieve technologie?',
+    sub:'Technologie die Eemhart nog niet eerder gebruikte of die nog niet bewezen is in de zorg.',
+    tip:'Innovatieve technologieën roepen onbekende risico\'s op. De AP en EDPB vereisen hierbij vrijwel altijd een DPIA.',
+    field:'dpia_inno', auto:true, show:()=>hasPersonal() },
+
+  { id:'d_kwets', phase:'dpia', lbl:'DPIA check', type:'c3',
+    title:'Betreft het kwetsbare betrokkenen?',
+    sub:'Cliënten met een beperking, kinderen, mensen met een psychische aandoening.',
+    tip:'Kwetsbare groepen verdienen extra bescherming. Verwerking van hun gegevens weegt zwaarder mee bij de DPIA-beoordeling.',
+    field:'dpia_kwets', auto:true, show:()=>hasPersonal() },
+
+  // ─── BEVEILIGING ─────────────────────────────────────────
+  { id:'s_clidata', phase:'beveiliging', lbl:'Beveiliging', type:'c3',
+    title:'Is er directe toegang tot cliëntgegevens vanuit dit systeem?',
+    sub:'Kunnen cliëntgegevens worden ingezien, bewerkt of gedownload?',
+    field:'sec_clidata', auto:true, show:()=>true },
+
+  { id:'s_mfa', phase:'beveiliging', lbl:'Beveiliging', type:'c3',
+    title:'Is inloggen met twee stappen (MFA) beschikbaar?',
+    sub:'Twee-factor authenticatie: wachtwoord + extra stap zoals een sms-code of authenticator-app.',
+    tip:'MFA is verplicht in NEN 7510 en ISO 27001 voor systemen met toegang tot gevoelige (zorg)gegevens.',
+    field:'sec_mfa', auto:true, show:()=>true },
+
+  { id:'s_enc', phase:'beveiliging', lbl:'Beveiliging', type:'c3',
+    title:'Worden gegevens versleuteld opgeslagen en verstuurd?',
+    sub:'Encryptie zorgt ervoor dat gegevens onleesbaar zijn voor onbevoegden.',
+    tip:'Versleuteling is een basisvereiste. Transport = HTTPS/TLS. Opslag = bijv. AES-256.',
+    field:'sec_enc', auto:true, show:()=>true },
+
+  { id:'s_log', phase:'beveiliging', lbl:'Beveiliging', type:'c3',
+    title:'Is audit logging beschikbaar (wie deed wanneer wat)?',
+    sub:'Logging registreert wie toegang heeft gehad tot gegevens.',
+    tip:'NEN 7510 en NEN 7513 vereisen logging van toegang tot medische gegevens. Essentieel voor incidentonderzoek.',
+    field:'sec_log', auto:true, show:()=>true },
+
+  { id:'s_cont', phase:'beveiliging', lbl:'Beveiliging', type:'c3',
+    title:'Is beschikbaarheid kritisch voor zorgcontinuïteit?',
+    sub:'Kunnen medewerkers of cliënten niet werken als dit systeem uitvalt?',
+    tip:'Bij kritische systemen zijn SLA\'s, back-upmaatregelen en herstelplannen extra belangrijk.',
+    field:'sec_cont', auto:true, show:()=>true },
+
+  { id:'s_inc', phase:'beveiliging', lbl:'Beveiliging', type:'c3',
+    title:'Is er een procedure voor datalekken en beveiligingsincidenten?',
+    sub:'Weten betrokkenen wat ze moeten doen als er iets misgaat?',
+    tip:'De AVG verplicht melding van datalekken binnen 72 uur. Leveranciers moeten Eemhart tijdig informeren.',
+    field:'sec_inc', auto:true, show:()=>true },
+
+  // ─── AI ──────────────────────────────────────────────────
+  { id:'ai_cdat', phase:'ai', lbl:'AI check', type:'c3',
+    title:'Worden cliëntgegevens ingevoerd in de AI?',
+    sub:'Namen, dossierinfo, rapportages of andere cliëntinformatie als invoer voor de AI.',
+    tip:'Het invoeren van cliëntgegevens in AI-tools brengt hoge privacyrisico\'s mee, zeker als de provider gegevens opslaat of voor training gebruikt.',
+    field:'ai_cdat', auto:true, show:()=>isAI() },
+
+  { id:'ai_train', phase:'ai', lbl:'AI check', type:'c3',
+    title:'Worden de ingevoerde gegevens gebruikt voor AI-training?',
+    sub:'Gebruikt de AI-leverancier wat jij invult om hun model te verbeteren?',
+    tip:'Veel AI-tools gebruiken ingevoerde data voor modeltraining. Dit is bijna nooit toegestaan bij persoonsgegevens, zeker niet bij gezondheidsgegevens.',
+    field:'ai_train', auto:true, show:()=>isAI() },
+
+  { id:'ai_ops', phase:'ai', lbl:'AI check', type:'c3',
+    title:'Worden prompts of AI-output opgeslagen door de leverancier?',
+    sub:'Bewaart de AI-dienst de vragen die je stelt en de antwoorden die gegeven worden?',
+    tip:'Opslag van prompts met persoonsgegevens buiten de EER is een hoog risico. Controleer bewaarperiode en opslaglocatie.',
+    field:'ai_ops', auto:true, show:()=>isAI() },
+
+  { id:'ai_ctrl', phase:'ai', lbl:'AI check', type:'c3',
+    title:'Is er altijd een medewerker die de AI-output controleert?',
+    sub:'Wordt de uitkomst van de AI beoordeeld door een mens vóór er actie op wordt genomen?',
+    tip:'"Human in the loop" is verplicht bij geautomatiseerde besluitvorming met significante gevolgen (AVG art. 22). In de zorg is dit extra belangrijk.',
+    field:'ai_ctrl', auto:true, show:()=>isAI() },
+
+  { id:'ai_zorg', phase:'ai', lbl:'AI check', type:'c3',
+    title:'Heeft de AI invloed op zorgbeslissingen?',
+    sub:'Bepaalt of adviseert de AI over zorg, behandeling, triage of begeleiding van cliënten?',
+    tip:'AI die invloed heeft op zorgbeslissingen kan kwalificeren als medisch hulpmiddel (MDR) en vereist extra toetsing. De DPIA is dan vrijwel zeker verplicht.',
+    field:'ai_zorg', auto:true, show:()=>isAI() },
+];
+
+// ═══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function visible() { return STEPS.filter(s => s.show()); }
+
+function idx(id) { return visible().findIndex(s => s.id === id); }
+
+function nextStep() {
+  // save any text input
+  const st = STEPS.find(s => s.id === curId);
+  if (st?.type === 'text') {
+    const el = document.getElementById('f_' + st.field);
+    if (el) A[st.field] = el.value.trim();
+  }
+  const vs = visible();
+  const i = idx(curId);
+  if (i < vs.length - 1) {
+    curId = vs[i+1].id;
+    window.scrollTo({ top:0, behavior:'smooth' });
+    render();
+  } else {
+    renderReport();
+  }
+}
+
+function prevStep() {
+  const vs = visible();
+  const i = idx(curId);
+  if (i > 0) {
+    curId = vs[i-1].id;
+    window.scrollTo({ top:0, behavior:'smooth' });
+    render();
+  }
+}
+
+function pick(field, val, auto) {
+  A[field] = val;
+  render();
+  if (auto) setTimeout(nextStep, 550);
+}
+
+function toggleChip(field, val) {
+  if (!A[field]) A[field] = [];
+  const i = A[field].indexOf(val);
+  if (i >= 0) A[field].splice(i, 1);
+  else A[field].push(val);
+  render();
+}
+
+function doRestart() {
+  if (!confirm('Weet je zeker dat je opnieuw wilt beginnen? Je antwoorden worden gewist.')) return;
+  Object.keys(A).forEach(k => delete A[k]);
+  curId = 'welcome';
+  document.getElementById('progWrap').style.display = '';
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PROGRESS BAR
+// ═══════════════════════════════════════════════════════════
+const PHASE_META = [
+  { id:'intake',     lbl:'📋 Intake' },
+  { id:'privacy',    lbl:'🔒 Privacy' },
+  { id:'verwerking', lbl:'📊 Verwerking' },
+  { id:'leverancier',lbl:'🏢 Leverancier' },
+  { id:'dpia',       lbl:'📝 DPIA' },
+  { id:'beveiliging',lbl:'🛡️ Beveiliging' },
+  { id:'ai',         lbl:'🤖 AI' },
+  { id:'rapport',    lbl:'📄 Rapport' },
+];
+
+function renderProgress() {
+  const vs = visible();
+  const ci = idx(curId);
+  const pct = vs.length > 1 ? Math.round((ci / (vs.length - 1)) * 100) : 0;
+  document.getElementById('barFill').style.width = pct + '%';
+  document.getElementById('progTxt').textContent =
+    `Stap ${ci + 1} van ${vs.length} · ${pct}% voltooid`;
+
+  const curPhase = vs[ci]?.phase;
+  const done = new Set(vs.slice(0, ci).map(s => s.phase));
+  const all  = new Set(vs.map(s => s.phase));
+
+  document.getElementById('phases').innerHTML = PHASE_META.map(p => {
+    let cls = 'phase';
+    if (p.id === curPhase) cls += ' active';
+    else if (done.has(p.id)) cls += ' done';
+    else if (!all.has(p.id) && p.id !== 'rapport') cls += ' skip';
+    return `<span class="${cls}">${p.lbl}</span>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER STEP
+// ═══════════════════════════════════════════════════════════
+function render() {
+  const st = STEPS.find(s => s.id === curId);
+  if (!st) { renderReport(); return; }
+  if (st.type === 'welcome') { renderWelcome(); renderProgress(); return; }
+  renderProgress();
+
+  const vs = visible();
+  const ci = idx(curId);
+  const isLast = ci === vs.length - 1;
+
+  // Tooltip
+  const tip = st.tip
+    ? `<span class="tt"><span class="tt-ic">ⓘ</span><div class="tt-body">${st.tip}</div></span>`
+    : '';
+
+  // Feedback
+  let fb = '';
+  if (st.fb && A[st.field]) {
+    const key = A[st.field];
+    const f = st.fb[key];
+    if (f) fb = `<div class="fb ${f.t}"><span class="fb-icon">${
+      f.t==='warn'?'⚠️':f.t==='err'?'🚨':f.t==='ok'?'✅':'ℹ️'}</span><span>${f.m}</span></div>`;
+  }
+  // Contextual feedback
+  if (!fb) {
+    if (st.id==='j_gz'  && A.jur_gz==='ja')    fb = `<div class="fb warn"><span class="fb-icon">⚠️</span><span>Gezondheidsgegevens zijn bijzondere persoonsgegevens. Hiervoor gelden strengere regels en is een DPIA sneller verplicht.</span></div>`;
+    if (st.id==='l_eer' && A.lev_eer==='ja')    fb = `<div class="fb err"><span class="fb-icon">🚨</span><span>Doorgifte buiten de EER vereist extra juridische waarborgen (bijv. SCC's). Leg vast welke maatregelen zijn getroffen.</span></div>`;
+    if (st.id==='ai_train'&&A.ai_train==='ja')  fb = `<div class="fb err"><span class="fb-icon">🚨</span><span>Als de AI-leverancier gegevens voor training gebruikt, is dit gebruik van (cliënt)gegevens bijna zeker NIET toegestaan zonder expliciete toestemming van betrokkenen.</span></div>`;
+    if (st.id==='ai_zorg'&&A.ai_zorg==='ja')    fb = `<div class="fb warn"><span class="fb-icon">⚠️</span><span>AI met invloed op zorgbeslissingen kan kwalificeren als medisch hulpmiddel (MDR). Bespreek dit met de FG en CISO vóór gebruik.</span></div>`;
+    if (st.id==='s_mfa'&&A.sec_mfa==='nee')     fb = `<div class="fb err"><span class="fb-icon">🚨</span><span>Geen MFA is een hoog beveiligingsrisico. NEN 7510 verplicht sterke authenticatie voor systemen met patiëntgegevens.</span></div>`;
+  }
+
+  // Input
+  let inp = '';
+  if (st.type === 'text') {
+    const v = A[st.field] || '';
+    inp = `<div class="ti-wrap">
+      <input class="ti" type="text" id="f_${st.field}" value="${v.replace(/"/g,'&quot;')}" placeholder="${st.ph||''}"
+        oninput="checkNext()" onkeypress="if(event.key==='Enter'){event.preventDefault();nextStep()}">
+    </div>`;
+  }
+  if (st.type === 'choice') {
+    inp = `<div class="ans-grid c${st.opts.length}">` +
+      st.opts.map(o => `<button class="ans-btn${A[st.field]===o.v?' sel':''}" onclick="pick('${st.field}','${o.v}',${st.auto||false})">
+        <span class="a-ic">${o.icon}</span>
+        <span><span class="a-lbl">${o.lbl}</span><span class="a-desc">${o.desc||''}</span></span>
+      </button>`).join('') + '</div>';
+  }
+  if (st.type === 'c3') {
+    inp = `<div class="ans-grid c3">
+      <button class="ans-btn ja${A[st.field]==='ja'?' sel':''}" onclick="pick('${st.field}','ja',${st.auto||false})">
+        <span class="a-ic">✓</span><span><span class="a-lbl">Ja</span></span></button>
+      <button class="ans-btn nee${A[st.field]==='nee'?' sel':''}" onclick="pick('${st.field}','nee',${st.auto||false})">
+        <span class="a-ic">✕</span><span><span class="a-lbl">Nee</span></span></button>
+      <button class="ans-btn wn${A[st.field]==='wn'?' sel':''}" onclick="pick('${st.field}','wn',${st.auto||false})">
+        <span class="a-ic">?</span><span><span class="a-lbl">Weet ik niet</span><span class="a-desc">We markeren dit</span></span></button>
+    </div>`;
+  }
+  if (st.type === 'sel') {
+    inp = `<div class="sel-grid">` +
+      st.opts.map(o => `<button class="sel-btn${A[st.field]===o.v?' sel':''}" onclick="pick('${st.field}','${o.v}',${st.auto||false})">${o.lbl}</button>`).join('') +
+      '</div>';
+  }
+  if (st.type === 'chips') {
+    const sel = A[st.field] || [];
+    inp = `<div class="chips">` +
+      st.opts.map(o => `<button class="chip${sel.includes(o.v)?' sel':''}" onclick="toggleChip('${st.field}','${o.v}')">${o.lbl}</button>`).join('') +
+      '</div>';
+  }
+
+  const canNext = st.req ? (A[st.field] && (Array.isArray(A[st.field]) ? A[st.field].length > 0 : A[st.field].trim().length > 0)) : true;
+
+  document.getElementById('app').innerHTML = `
+    <div class="card">
+      <div class="phase-lbl">${st.lbl || st.phase}</div>
+      <h1 class="q-title">${st.title}${tip}</h1>
+      ${st.sub ? `<p class="q-sub">${st.sub}</p>` : ''}
+      ${fb}
+      ${inp}
+      <div class="nav">
+        <button class="btn-s" onclick="prevStep()" ${ci===0?'disabled':''}>← Vorige</button>
+        <span class="step-ind">${ci+1} / ${vs.length}</span>
+        <button class="btn-p" id="nxt" onclick="nextStep()" ${canNext?'':'disabled'}>
+          ${isLast ? '📄 Rapport genereren' : 'Volgende →'}
+        </button>
+      </div>
+    </div>
+    ${liveSummary()}
+  `;
+
+  if (st.type === 'text') setTimeout(() => document.getElementById('f_'+st.field)?.focus(), 80);
+}
+
+function checkNext() {
+  const st = STEPS.find(s => s.id === curId);
+  if (!st?.req) return;
+  const el = document.getElementById('f_' + st.field);
+  const btn = document.getElementById('nxt');
+  if (el && btn) btn.disabled = el.value.trim().length === 0;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LIVE SUMMARY
+// ═══════════════════════════════════════════════════════════
+function liveSummary() {
+  const rows = [];
+  if (A.intake_naam)            rows.push({d:'dq', t:`Situatie: <strong>${A.intake_naam}</strong>`});
+  if (A.jur_pg) {
+    const d = A.jur_pg==='ja'?'do':A.jur_pg==='nee'?'dg':'dq';
+    rows.push({d, t:`Persoonsgegevens: <strong>${A.jur_pg==='ja'?'Ja':A.jur_pg==='nee'?'Nee':'Onbekend'}</strong>`});
+  }
+  if (A.jur_gz==='ja')  rows.push({d:'dr', t:'<strong>Gezondheidsgegevens</strong> aanwezig'});
+  if (A.jur_bz==='ja')  rows.push({d:'dr', t:'<strong>Bijzondere persoonsgegevens</strong> aanwezig'});
+  if (A.lev_ext==='ja') rows.push({d:'do', t:'Externe <strong>leverancier</strong> betrokken'});
+  if (isAI())           rows.push({d:'do', t:'<strong>AI</strong> in gebruik'});
+  if (outsideEEA())     rows.push({d:'dr', t:'⚠️ Opslag/verwerking <strong>buiten EER</strong>'});
+  if (!rows.length) return '';
+  return `<div class="ls"><h3>📍 Tot nu toe</h3>${
+    rows.map(r=>`<div class="ls-item"><span class="dot ${r.d}"></span><span>${r.t}</span></div>`).join('')
+  }</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  WELCOME
+// ═══════════════════════════════════════════════════════════
+function renderWelcome() {
+  document.getElementById('app').innerHTML = `
+    <div class="card">
+      <div class="welcome">
+        <div class="wc-ico">🛡️</div>
+        <h1 class="wc-title">Privacy &amp; Compliance<br><span>Beoordeling</span></h1>
+        <p class="wc-sub">Geen zorgen — we lopen dit stap voor stap samen door. Je hoeft geen juridische of technische kennis te hebben.</p>
+        <div class="wc-feats">
+          <div class="wf"><div class="wf-ico">🔒</div><div class="wf-t">AVG &amp; Privacy</div><div class="wf-d">Automatische check op wat de AVG vereist voor jouw situatie</div></div>
+          <div class="wf"><div class="wf-ico">🛡️</div><div class="wf-t">Informatiebeveiliging</div><div class="wf-d">NEN 7510, ISO 27001 en cybersecurity worden getoetst</div></div>
+          <div class="wf"><div class="wf-ico">📋</div><div class="wf-t">Concreet actieplan</div><div class="wf-d">Duidelijk rapport: wat is verplicht, aanbevolen of niet nodig</div></div>
+        </div>
+        <p class="wc-note">We vragen alleen wat nodig is. Kies gerust 'Weet ik niet' — dat is altijd een eerlijk antwoord.</p>
+        <button class="btn-p orange" onclick="nextStep()" style="font-size:16px;padding:16px 44px;margin:0 auto">
+          Begin de beoordeling →
+        </button>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RISK CALCULATION
+// ═══════════════════════════════════════════════════════════
+function calcRisk() {
+  const R = { privacy:'laag', beveiliging:'laag', leverancier:'laag', contract:'laag', continuiteit:'laag', ai:'laag', patientveiligheid:'laag' };
+  if (hasPersonal())              R.privacy = bump(R.privacy,'middel');
+  if (hasHealth())                R.privacy = bump(R.privacy,'hoog');
+  if (hasBijz())                  R.privacy = bump(R.privacy,'hoog');
+  if (A.jur_pg==='wn')            R.privacy = bump(R.privacy,'middel');
+  if (A.dpia_prof==='ja')         R.privacy = bump(R.privacy,'hoog');
+  if (A.dpia_mon==='ja')          R.privacy = bump(R.privacy,'hoog');
+  if (A.lev_eer==='ja')           R.privacy = bump(R.privacy,'hoog');
+  if (A.ctx_ops==='buiten_eer')   R.privacy = bump(R.privacy,'hoog');
+  if (A.ai_train==='ja')          R.privacy = bump(R.privacy,'kritiek');
+  if (A.sec_mfa==='nee')          R.beveiliging = bump(R.beveiliging,'hoog');
+  if (A.sec_enc==='nee')          R.beveiliging = bump(R.beveiliging,'hoog');
+  if (A.sec_log==='nee')          R.beveiliging = bump(R.beveiliging,'middel');
+  if (A.sec_mfa==='wn')           R.beveiliging = bump(R.beveiliging,'middel');
+  if (A.sec_enc==='wn')           R.beveiliging = bump(R.beveiliging,'middel');
+  if (A.sec_clidata==='ja'&&A.sec_mfa!=='ja') R.beveiliging = bump(R.beveiliging,'hoog');
+  if (hasSupplier())              R.leverancier = bump(R.leverancier,'middel');
+  if (A.lev_eer==='ja')           R.leverancier = bump(R.leverancier,'hoog');
+  if (A.lev_cert==='nee')         R.leverancier = bump(R.leverancier,'hoog');
+  if (A.lev_sub==='ja')           R.leverancier = bump(R.leverancier,'middel');
+  if (A.lev_doel==='ja')          R.leverancier = bump(R.leverancier,'hoog');
+  if (A.lev_tog==='ja')           R.contract = bump(R.contract,'hoog');
+  if (outsideEEA())               R.contract = bump(R.contract,'hoog');
+  if (hasSupplier())              R.contract = bump(R.contract,'middel');
+  if (A.sec_cont==='ja')          R.continuiteit = bump(R.continuiteit,'hoog');
+  if (hasSupplier()&&A.lev_cert==='nee') R.continuiteit = bump(R.continuiteit,'middel');
+  if (isAI()) {
+    R.ai = bump(R.ai,'middel');
+    if (A.ai_cdat==='ja')  R.ai = bump(R.ai,'hoog');
+    if (A.ai_train==='ja') R.ai = bump(R.ai,'kritiek');
+    if (A.ai_zorg==='ja')  R.ai = bump(R.ai,'hoog');
+    if (A.ai_ctrl==='nee') R.ai = bump(R.ai,'hoog');
+  }
+  if ((A.jur_wie||[]).includes('clienten')) R.patientveiligheid = bump(R.patientveiligheid,'middel');
+  if (A.ai_zorg==='ja')          R.patientveiligheid = bump(R.patientveiligheid,'hoog');
+  if (A.sec_cont==='ja'&&hasSupplier()) R.patientveiligheid = bump(R.patientveiligheid,'middel');
+  return R;
+}
+
+function dpiaStatus() {
+  if (!hasPersonal()) return false;
+  let s = 0;
+  if (hasHealth())           s += 3;
+  if (hasBijz())             s += 2;
+  if (A.dpia_prof==='ja')    s += 2;
+  if (A.dpia_mon==='ja')     s += 2;
+  if (A.dpia_inno==='ja')    s += 2;
+  if (A.dpia_kwets==='ja')   s += 2;
+  if (A.ctx_kop==='ja')      s += 1;
+  if (outsideEEA())          s += 1;
+  if (isAI()&&A.ai_cdat==='ja') s += 2;
+  if (A.ai_zorg==='ja')      s += 2;
+  if (s >= 5) return 'verplicht';
+  if (s >= 3) return 'waarschijnlijk';
+  if (s >= 1) return 'overwegen';
+  return false;
+}
+
+function verdict(risks) {
+  const v = Object.values(risks);
+  if (v.includes('kritiek')) return 'rood';
+  if (v.includes('hoog'))    return 'geel';
+  if (v.includes('middel'))  return 'geel';
+  return 'groen';
+}
+
+function getActions() {
+  const vp=[], aa=[];
+  const dp = dpiaStatus();
+  if (hasPersonal()) {
+    vp.push('Controleer of de verwerking is opgenomen in het verwerkingsregister van Eemhart.');
+    vp.push('Zorg dat de verwerkingsgrondslag (AVG art. 6) is vastgelegd en onderbouwd.');
+    aa.push('Informeer betrokkenen via een privacyverklaring over de verwerking (transparantieverplichting AVG art. 13/14).');
+  }
+  if (hasHealth()||hasBijz()) vp.push('Leg de aanvullende grondslag voor bijzondere persoonsgegevens vast (AVG art. 9).');
+  if (hasSupplier()&&A.lev_tog==='ja') vp.push('Sluit een verwerkersovereenkomst (VOK) met de leverancier — dit is wettelijk verplicht (AVG art. 28).');
+  if (hasSupplier()) {
+    vp.push('Voer een leveranciersbeoordeling uit (security, privacy, continuïteit, contractreview).');
+    aa.push('Controleer of de contractvoorwaarden aansluiten op de AIVG 2022 en Module ICT.');
+  }
+  if (dp==='verplicht')       vp.push('Voer een volledige DPIA uit vóórdat de verwerking start. Raadpleeg de FG.');
+  else if (dp==='waarschijnlijk') vp.push('Laat de FG beoordelen of een DPIA verplicht is; voer deze bij twijfel uit.');
+  else if (dp==='overwegen')  aa.push('Overweeg een lichte privacytoets of pre-DPIA analyse via de FG.');
+  if (outsideEEA()) {
+    vp.push('Zorg voor passende waarborgen voor doorgifte buiten de EER (bijv. Standard Contractual Clauses conform AVG art. 46).');
+    vp.push('Beoordeel of een adequaatheidsbesluit van toepassing is voor het betreffende land.');
+  }
+  if (A.sec_mfa==='nee'||A.sec_mfa==='wn') vp.push('Eis dat MFA (tweefactorauthenticatie) beschikbaar en actief is voor alle gebruikers van dit systeem.');
+  if (A.sec_enc==='nee')   vp.push('Zorg voor encryptie van gegevens in rust (at rest) en tijdens transport (in transit).');
+  if (A.sec_inc==='nee'||A.sec_inc==='wn') vp.push('Stel of controleer de datalek- en incidentprocedure — leverancier moet Eemhart binnen 24 uur melden.');
+  if (isAI()&&A.ai_cdat==='ja') vp.push('Controleer of de AI-leverancier cliëntgegevens opslaat of voor training gebruikt. Zo ja: stop gebruik per direct.');
+  if (A.ai_train==='ja')   vp.push('STOP: gebruik van cliëntgegevens in deze AI is NIET toegestaan zolang de leverancier gegevens voor training inzet.');
+  if (A.ai_zorg==='ja')    vp.push('Zorg voor "human in the loop": geen AI-beslissing over cliënten zonder beoordeling door een bevoegde medewerker.');
+  if (A.ctx_grond==='wn')  vp.push('Bepaal de verwerkingsgrondslag — gebruik nooit persoonsgegevens zonder duidelijke grondslag (AVG art. 6).');
+  if (A.lev_sub==='ja')    vp.push('Vraag leverancier een overzicht van alle subverwerkers en leg dit vast in de verwerkersovereenkomst.');
+  if (isAI())              aa.push('Voer een AI-governance beoordeling uit conform het beleid van Eemhart.');
+  if (A.ai_zorg==='ja')    aa.push('Beoordeel of de AI kwalificeert als medisch hulpmiddel (MDR/IVDR) — raadpleeg hiervoor een specialist.');
+  if (A.sec_cont==='ja')   aa.push('Stel SLA-eisen voor beschikbaarheid op en leg back-up- en herstelplannen vast in het contract.');
+  if (A.lev_cert==='nee')  aa.push('Vraag de leverancier naar hun beveiligingsniveau en plan een auditrecht in het contract.');
+  if (hasPersonal())       aa.push('Voeg de verwerking toe aan het verwerkingsregister van Eemhart (of controleer de bestaande registratie).');
+  return { vp, aa };
+}
+
+function getEscalations() {
+  const dp = dpiaStatus();
+  const R  = calcRisk();
+  const esc = [];
+  if (dp==='verplicht'||dp==='waarschijnlijk') esc.push({cls:'e-fg',  ico:'🔒', role:'FG (Functionaris Gegevensbescherming)', why:'DPIA-beoordeling verplicht of waarschijnlijk nodig'});
+  if (hasHealth()||hasBijz())                  esc.push({cls:'e-fg',  ico:'🔒', role:'Privacy Officer / FG',                  why:'Bijzondere persoonsgegevens vereisen extra privacytoetsing'});
+  if (R.beveiliging==='hoog'||R.beveiliging==='kritiek') esc.push({cls:'e-ciso',ico:'🛡️', role:'CISO / Security Officer',              why:'Hoog beveiligingsrisico vereist security assessment'});
+  if (hasSupplier())                           esc.push({cls:'e-ink', ico:'📋', role:'Inkoop / Contractbeheer',               why:'Contractreview en leveranciersbeoordeling vereist'});
+  if (outsideEEA()||A.lev_tog==='ja')          esc.push({cls:'e-jur', ico:'⚖️', role:'Juridische Zaken',                      why:'Juridische toetsing VOK en/of internationale doorgifte'});
+  if (isAI()&&A.ai_zorg==='ja')                esc.push({cls:'e-dir', ico:'🏥', role:'Directie / Medisch adviseur',           why:'AI met invloed op zorgbeslissingen vereist bestuurlijke afweging'});
+  if (isAI())                                  esc.push({cls:'e-fg',  ico:'🤖', role:'FG + CISO (AI-governance)',             why:'AI-tool met persoonsgegevens: privacy én security review verplicht'});
+  const seen = new Set();
+  return esc.filter(e => { if(seen.has(e.role)) return false; seen.add(e.role); return true; });
+}
+
+function openQuestions() {
+  const q = [];
+  if (A.jur_pg==='wn')    q.push('Worden er persoonsgegevens verwerkt? → laat checken door Privacy Officer.');
+  if (A.ctx_grond==='wn') q.push('Wat is de juridische grondslag voor de verwerking (AVG art. 6)?');
+  if (A.ctx_ops==='wn')   q.push('Waar worden de gegevens precies opgeslagen (land, cloudprovider)?');
+  if (A.lev_eer==='wn')   q.push('Is de leverancier of zijn servers buiten de EER gevestigd?');
+  if (A.lev_cert==='wn')  q.push('Heeft de leverancier ISO 27001 of NEN 7510 certificering?');
+  if (A.sec_mfa==='wn')   q.push('Is MFA beschikbaar en ingesteld voor dit systeem?');
+  if (A.sec_enc==='wn')   q.push('Worden gegevens versleuteld opgeslagen en verstuurd?');
+  if (isAI()&&A.ai_train==='wn') q.push('Gebruikt de AI-leverancier ingevoerde gegevens voor modeltraining?');
+  if (isAI()&&A.ai_ops==='wn')   q.push('Slaat de AI-leverancier prompts en outputs op, en voor hoe lang?');
+  return q;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  REPORT
+// ═══════════════════════════════════════════════════════════
+function renderReport() {
+  document.getElementById('progWrap').style.display = 'none';
+  const risks = calcRisk();
+  const v     = verdict(risks);
+  const dp    = dpiaStatus();
+  const acts  = getActions();
+  const escs  = getEscalations();
+  const oqs   = openQuestions();
+
+  const verdictMap = {
+    groen:{ cls:'v-groen', ico:'✅', title:'Voorzichtig groen licht',           desc:'De situatie lijkt in orde. Zorg dat alle aanbevolen acties worden uitgevoerd en gedocumenteerd.' },
+    geel: { cls:'v-geel',  ico:'⚠️', title:'Toegestaan onder voorwaarden',      desc:'Er zijn verplichte acties nodig vóórdat je kunt starten. Controleer de actielijst hieronder zorgvuldig.' },
+    rood: { cls:'v-rood',  ico:'🚫', title:'Nog niet toegestaan',               desc:'Er zijn kritieke risico\'s of ontbrekende maatregelen. Start NIET voordat alle verplichte acties zijn afgerond en geaccordeerd.' },
+  }[v];
+
+  const dpiaMsg = dp ? {
+    verplicht:    { cls:'err',  txt:'DPIA verplicht — start niet zonder goedgekeurde DPIA.' },
+    waarschijnlijk:{ cls:'warn', txt:'DPIA waarschijnlijk nodig — laat de FG dit beoordelen.' },
+    overwegen:    { cls:'info', txt:'Privacytoets aanbevolen — bespreek dit met de Privacy Officer.' },
+  }[dp] : null;
+
+  const riskLbls = {
+    privacy:'🔒 Privacy', beveiliging:'🛡️ Beveiliging', leverancier:'🏢 Leverancier',
+    contract:'📋 Contract', continuiteit:'⚡ Continuïteit', ai:'🤖 AI', patientveiligheid:'🏥 Patiëntveiligheid'
+  };
+
+  // Documents needed
+  const docs = [];
+  if (hasSupplier()&&A.lev_tog==='ja') docs.push({t:'Verwerkersovereenkomst (VOK)', c:'err'});
+  if (dp==='verplicht'||dp==='waarschijnlijk') docs.push({t:'DPIA', c:'err'});
+  if (hasSupplier()) docs.push({t:'Leveranciersbeoordeling', c:'warn'});
+  if (hasSupplier()) docs.push({t:'Contractreview (AIVG / Module ICT)', c:'warn'});
+  if (outsideEEA()) docs.push({t:'Standard Contractual Clauses (SCC\'s)', c:'err'});
+  if (isAI()) docs.push({t:'AI-governance beoordeling', c:'warn'});
+  if (hasPersonal()) docs.push({t:'Registervermelding (verwerkingsregister)', c:''});
+  if (A.sec_cont==='ja') docs.push({t:'Business Continuity Plan', c:'warn'});
+  docs.push({t:'Beveiligingsassessment', c:''});
+
+  // Audit trail
+  const auditRows = STEPS
+    .filter(s => s.field && A[s.field] !== undefined)
+    .map(s => {
+      let dv = A[s.field];
+      if (Array.isArray(dv)) dv = dv.length ? dv.join(', ') : '(geen selectie)';
+      if (dv === 'ja')  dv = '✓ Ja';
+      if (dv === 'nee') dv = '✗ Nee';
+      if (dv === 'wn')  dv = '⚠️ Onbekend / uitzoekpunt';
+      return `<tr><td>${s.lbl||s.phase}</td><td>${s.title.replace(/<[^>]*>/g,'')}</td><td><strong>${dv}</strong></td></tr>`;
+    }).join('');
+
+  const now = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
+
+  document.getElementById('app').innerHTML = `
+  <div class="report">
+    <div class="rpt-hdr">
+      <div class="meta">Compliance Rapport · Eemhart</div>
+      <h1>📋 ${A.intake_naam || 'Naamloze beoordeling'}</h1>
+      <div class="sub">
+        ${A.intake_type==='nieuw'?'Nieuwe verwerking':'Gewijzigde situatie'}
+        ${A.intake_afd ? ' · ' + A.intake_afd : ''}
+        ${A.intake_eig ? ' · ' + A.intake_eig : ''}
+        · ${now}
+      </div>
+    </div>
+
+    <div class="rpt-body">
+
+      <!-- VERDICT -->
+      <div class="verdict ${verdictMap.cls}">
+        <div class="v-ico">${verdictMap.ico}</div>
+        <div>
+          <div class="v-title">${verdictMap.title}</div>
+          <div class="v-desc">${verdictMap.desc}</div>
+        </div>
+      </div>
+
+      <!-- DPIA STATUS -->
+      ${dpiaMsg ? `<div class="fb ${dpiaMsg.cls}" style="margin-bottom:24px">
+        <span class="fb-icon">📝</span>
+        <span><strong>DPIA-beoordeling:</strong> ${dpiaMsg.txt}</span>
+      </div>` : hasPersonal() ? `<div class="fb ok" style="margin-bottom:24px">
+        <span class="fb-icon">📝</span><span>Op basis van de antwoorden lijkt een DPIA niet direct verplicht. Controleer dit alsnog met de FG bij twijfel.</span>
+      </div>` : ''}
+
+      <!-- RISICOSCORES -->
+      <div class="rsec">
+        <h2>🎯 Risicoanalyse per categorie</h2>
+        <div class="risk-grid">
+          ${Object.entries(risks).map(([k,lv])=>`
+            <div class="rk ${lv}">
+              <span class="rk-lv">${lv}</span>
+              <span class="rk-cat">${riskLbls[k]||k}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- VERPLICHTE ACTIES -->
+      <div class="rsec">
+        <h2>🔴 Verplichte acties</h2>
+        ${acts.vp.length ? `<ul class="act-list">${acts.vp.map(a=>`
+          <li class="act-item v"><span class="badge bv">Verplicht</span><span>${a}</span></li>`).join('')}
+        </ul>` : `<p style="color:var(--groen);font-weight:500">✅ Geen verplichte acties geïdentificeerd op basis van de huidige antwoorden.</p>`}
+      </div>
+
+      <!-- AANBEVOLEN ACTIES -->
+      <div class="rsec">
+        <h2>🟡 Aanbevolen acties</h2>
+        ${acts.aa.length ? `<ul class="act-list">${acts.aa.map(a=>`
+          <li class="act-item a"><span class="badge ba">Aanbevolen</span><span>${a}</span></li>`).join('')}
+        </ul>` : `<p style="color:var(--grijs-md)">Geen aanvullende aanbevelingen.</p>`}
+      </div>
+
+      <!-- BENODIGDE DOCUMENTEN -->
+      <div class="rsec">
+        <h2>📁 Benodigde documenten</h2>
+        <div class="doc-chips">
+          ${docs.map(d=>`<span class="doc-chip ${d.c}">${d.t}</span>`).join('')}
+        </div>
+      </div>
+
+      <!-- ESCALATIES -->
+      <div class="rsec">
+        <h2>👥 Te betrekken functionarissen</h2>
+        ${escs.length ? `<div class="esc-grid">${escs.map(e=>`
+          <div class="esc ${e.cls}">
+            <span>${e.ico}</span>
+            <div>
+              <div style="font-weight:700">${e.role}</div>
+              <div style="font-size:11px;font-weight:400;opacity:.8">${e.why}</div>
+            </div>
+          </div>`).join('')}
+        </div>` : `<p style="color:var(--groen)">✅ Geen escalaties noodzakelijk op basis van huidige informatie.</p>`}
+      </div>
+
+      <!-- OPEN VRAGEN -->
+      ${oqs.length ? `<div class="rsec">
+        <h2>❓ Openstaande uitzoekpunten</h2>
+        <ul class="act-list">${oqs.map(q=>`
+          <li class="act-item" style="background:rgba(251,239,193,.5);border-left:3px solid var(--geel)">
+            <span>🔍 ${q}</span>
+          </li>`).join('')}</ul>
+      </div>` : ''}
+
+      <!-- SAMENVATTING SITUATIE -->
+      <div class="rsec">
+        <h2>📊 Samenvatting situatie</h2>
+        <div class="info-grid">
+          <div class="info-box">
+            <div class="lbl">Situatie</div>
+            <div class="info-row"><strong>Naam:</strong> ${A.intake_naam||'–'}</div>
+            <div class="info-row"><strong>Type:</strong> ${A.intake_type==='nieuw'?'Nieuw':A.intake_type==='wijziging'?'Wijziging':'–'}</div>
+            <div class="info-row"><strong>Doel:</strong> ${A.intake_doel||'–'}</div>
+            <div class="info-row"><strong>Eigenaar:</strong> ${A.intake_eig||'–'}</div>
+            <div class="info-row"><strong>Afdeling:</strong> ${A.intake_afd||'–'}</div>
+          </div>
+          <div class="info-box">
+            <div class="lbl">Privacy</div>
+            <div class="info-row"><strong>Persoonsgegevens:</strong> ${A.jur_pg==='ja'?'Ja':A.jur_pg==='nee'?'Nee':'Onbekend'}</div>
+            <div class="info-row"><strong>Gezondheidsgegevens:</strong> ${A.jur_gz==='ja'?'Ja':A.jur_gz==='nee'?'Nee':'Onbekend/n.v.t.'}</div>
+            <div class="info-row"><strong>Bijzondere gegevens:</strong> ${A.jur_bz==='ja'?'Ja':A.jur_bz==='nee'?'Nee':'Onbekend/n.v.t.'}</div>
+            <div class="info-row"><strong>Betrokkenen:</strong> ${(A.jur_wie||[]).join(', ')||'–'}</div>
+            <div class="info-row"><strong>Opslag:</strong> ${A.ctx_ops||'–'}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUDIT TRAIL -->
+      <div class="rsec">
+        <h2>📜 Audittrail – alle antwoorden</h2>
+        <table class="audit-tbl">
+          <thead><tr><th>Fase</th><th>Vraag</th><th>Antwoord</th></tr></thead>
+          <tbody>${auditRows||'<tr><td colspan="3" style="color:var(--grijs-md)">Geen antwoorden geregistreerd</td></tr>'}</tbody>
+        </table>
+      </div>
+
+    </div><!-- /rpt-body -->
+
+    <div class="print-bar">
+      <div class="print-meta">Gegenereerd op ${now} · Eemhart Privacy &amp; Compliance Beoordeling v2026</div>
+      <div class="print-btns">
+        <button class="restart-btn" onclick="doRestart()">↺ Nieuwe beoordeling</button>
+        <button class="btn-p" onclick="window.print()">🖨️ Afdrukken / PDF opslaan</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => render());
+</script>
+</body>
+</html>
